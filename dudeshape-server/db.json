@@ -1,0 +1,56 @@
+{
+  "banners": [
+    {
+      "id": 1,
+      "title": "Get Your Best Cosmetic Products Here",
+      "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy",
+      "image": "/images/hero.png"
+    }
+  ],
+
+  "brands": [
+    { "id": 1, "name": "airbnb",    "logo": "/images/brand-airbnb.png" },
+    { "id": 2, "name": "HubSpot",   "logo": "/images/brand-hubspot.png" },
+    { "id": 3, "name": "Google",    "logo": "/images/brand-google.png" },
+    { "id": 4, "name": "Microsoft", "logo": "/images/brand-microsoft.png" },
+    { "id": 5, "name": "Walmart",   "logo": "/images/brand-walmart.png" },
+    { "id": 6, "name": "FedEx",     "logo": "/images/brand-fedex.png" }
+  ],
+
+  "products": [
+    {
+      "id": 1,
+      "title": "Cosmetic products",
+      "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy",
+      "price": 120,
+      "image": "/images/product-1.png"
+    },
+    {
+      "id": 2,
+      "title": "Cosmetic products",
+      "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy",
+      "price": 120,
+      "image": "/images/product-2.png"
+    }
+  ],
+
+  "stats": [
+    { "id": 1, "value": "100%", "label": "Organic Products" },
+    { "id": 2, "value": "2M+",  "label": "Yearly Sales" },
+    { "id": 3, "value": "1.9M+","label": "Happy Customer" }
+  ],
+
+  "reviews": [
+    {
+      "id": 1,
+      "title": "Amazing Cosmetic",
+      "rating": 5,
+      "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+      "author": "Rusmin Islam",
+      "role": "Designer",
+      "avatar": "/images/reviewer.png"
+    }
+  ],
+
+  "cart": []
+}
