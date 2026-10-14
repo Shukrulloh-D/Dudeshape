@@ -4,12 +4,13 @@ import { useSection } from '@/shared/api';
 import styles from './perfect-beauty.module.css';
 
 export function PerfectBeauty() {
-  const { data: beauty, isLoading: loadingBeauty } = useSection('beauty');
-  const { data: reviews, isLoading: loadingReviews, error } = useSection('reviews');
+  const beauty = useSection('beauty');
+  const reviews = useSection('reviews');
 
-  if (loadingBeauty || loadingReviews) return <Loader />;
-  if (error) return <ErrorMessage message={error.message} />;
-  if (!reviews?.length) return null;
+  if (beauty.isLoading || reviews.isLoading) return <Loader />;
+  if (reviews.error) return <ErrorMessage message={reviews.error.message} />;
+
+  const beautyImage = beauty.data?.image || '/images/beauty.png';
 
   return (
     <section className={styles.section} id="beauty">
@@ -31,10 +32,10 @@ export function PerfectBeauty() {
             <button className={styles.shopBtn}>Shop Now</button>
           </div>
 
-          <img className={styles.image} src={beauty?.image || '/images/beauty.png'} alt="Perfect Beauty" />
+          <img className={styles.image} src={beautyImage} alt="Perfect Beauty" />
         </div>
 
-        <ReviewBlock reviews={reviews} />
+        <ReviewBlock reviews={reviews.data} />
       </Container>
     </section>
   );

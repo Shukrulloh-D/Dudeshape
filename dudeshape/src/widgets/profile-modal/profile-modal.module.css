@@ -9,9 +9,8 @@
   font-size: 14px;
   font-weight: 500;
   color: var(--text-muted);
-  cursor: pointer;
   border-bottom: 2px solid transparent;
-  transition: color 0.2s, border-color 0.2s;
+  transition: 0.2s;
 }
 .tab:hover { color: var(--text); }
 .tabActive { color: var(--text); border-color: var(--dark); }
@@ -31,7 +30,13 @@
 .error { color: #e63946; font-size: 12px; }
 
 .userBox { display: flex; flex-direction: column; gap: 20px; }
-.userRow { display: flex; align-items: center; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+.userRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
 .avatar {
   width: 48px;
   height: 48px;
@@ -52,16 +57,12 @@
   padding: 12px 14px;
   border-radius: var(--radius);
   font-size: 14px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
   cursor: pointer;
   transition: background 0.2s;
 }
 .menuItem:hover { background: var(--bg-soft); }
 
 .logout {
-  margin-top: 8px;
   padding: 12px 14px;
   border-radius: var(--radius);
   font-size: 14px;

@@ -10,10 +10,10 @@ export function Hero({ onSearch }) {
 
   if (isLoading) return <Loader />;
   if (error) return <ErrorMessage message={error.message} />;
-  if (!data?.length) return null;
+  if (!Array.isArray(data) || data.length === 0) return null;
 
   const total = data.length;
-  const banner = data[slide];
+  const banner = data[slide] || data[0];
 
   const next = () => setSlide((s) => (s + 1) % total);
   const prev = () => setSlide((s) => (s - 1 + total) % total);

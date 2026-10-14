@@ -8,7 +8,7 @@ export function BrandsStrip() {
 
   if (isLoading) return <Loader />;
   if (error) return <ErrorMessage message={error.message} />;
-  if (!data?.length) return null;
+  if (!Array.isArray(data) || data.length === 0) return null;
 
   return (
     <section className={styles.section}>

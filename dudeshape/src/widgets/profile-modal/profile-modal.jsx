@@ -10,36 +10,37 @@ export function ProfileModal({ isOpen, onClose }) {
   const [form, setForm] = useState({ name: '', email: '', password: '' });
   const [error, setError] = useState('');
 
-  const { mutate: doLogin, isPending: isLoginPending } = useLogin();
-  const { mutate: doRegister, isPending: isRegisterPending } = useRegister();
+  const loginMutation = useLogin();
+  const registerMutation = useRegister();
 
   const update = (key, value) => setForm((f) => ({ ...f, [key]: value }));
 
-  const reset = () => {
+  const switchTab = (next) => {
+    setTab(next);
     setForm({ name: '', email: '', password: '' });
     setError('');
   };
 
-  const handleSubmit = (e) => {
+  const submit = (e) => {
     e.preventDefault();
     setError('');
 
-    if (!form.email.includes('@')) { setError('Enter a valid email'); return; }
-    if (form.password.length < 4) { setError('Password must be at least 4 characters'); return; }
-    if (tab === 'register' && !form.name.trim()) { setError('Enter your name'); return; }
+    if (!form.email.includes('@')) return setError('Invalid email');
+    if (form.password.length < 4) return setError('Password must be at least 4 characters');
+    if (tab === 'register' && !form.name.trim()) return setError('Enter your name');
 
-    const onSuccess = (data) => {
-      login(data.token, data.user);
-      reset();
-      onClose();
-    };
-    const onError = (err) => setError(err.response?.data?.message || err.message);
+    const mutation = tab === 'login' ? loginMutation : registerMutation;
+    const payload = tab === 'login'
+      ? { email: form.email, password: form.password }
+      : form;
 
-    if (tab === 'login') {
-      doLogin({ email: form.email, password: form.password }, { onSuccess, onError });
-    } else {
-      doRegister(form, { onSuccess, onError });
-    }
+    mutation.mutate(payload, {
+      onSuccess: (data) => {
+        login(data.token, data.user);
+        onClose();
+      },
+      onError: (err) => setError(err.response?.data?.message || err.message),
+    });
   };
 
   const handleLogout = () => {
@@ -70,59 +71,51 @@ export function ProfileModal({ isOpen, onClose }) {
       ) : (
         <>
           <div className={styles.tabs}>
-            <button
-              className={cn(styles.tab, tab === 'login' && styles.tabActive)}
-              onClick={() => { setTab('login'); reset(); }}
-            >
+            <button className={cn(styles.tab, tab === 'login' && styles.tabActive)} onClick={() => switchTab('login')}>
               Sign In
             </button>
-            <button
-              className={cn(styles.tab, tab === 'register' && styles.tabActive)}
-              onClick={() => { setTab('register'); reset(); }}
-            >
+            <button className={cn(styles.tab, tab === 'register' && styles.tabActive)} onClick={() => switchTab('register')}>
               Register
             </button>
           </div>
 
-          <form className={styles.form} onSubmit={handleSubmit}>
+          <form className={styles.form} onSubmit={submit}>
             {tab === 'register' && (
               <div className={styles.field}>
                 <label className={styles.label}>Name</label>
                 <input
                   className={styles.input}
-                  placeholder="John Doe"
                   value={form.name}
                   onChange={(e) => update('name', e.target.value)}
+                  placeholder="John Doe"
                 />
               </div>
             )}
-
             <div className={styles.field}>
               <label className={styles.label}>Email</label>
               <input
                 className={styles.input}
                 type="email"
-                placeholder="you@example.com"
                 value={form.email}
                 onChange={(e) => update('email', e.target.value)}
+                placeholder="you@example.com"
               />
             </div>
-
             <div className={styles.field}>
               <label className={styles.label}>Password</label>
               <input
                 className={styles.input}
                 type="password"
-                placeholder="••••"
                 value={form.password}
                 onChange={(e) => update('password', e.target.value)}
+                placeholder="••••"
               />
             </div>
 
             {error && <div className={styles.error}>{error}</div>}
 
-            <Button type="submit" variant="dark" disabled={isLoginPending || isRegisterPending}>
-              {isLoginPending || isRegisterPending
+            <Button type="submit" variant="dark" disabled={loginMutation.isPending || registerMutation.isPending}>
+              {loginMutation.isPending || registerMutation.isPending
                 ? 'Loading…'
                 : tab === 'login' ? 'Sign In' : 'Create Account'}
             </Button>

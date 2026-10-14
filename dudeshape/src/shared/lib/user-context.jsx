@@ -1,27 +1,27 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 
 const UserContext = createContext(null);
-const STORAGE_KEY = 'dudeshape_user';
+const KEY = 'dudeshape_user';
 
 export function UserProvider({ children }) {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      try { setUser(JSON.parse(stored)); } catch { /* ignore */ }
+    const raw = localStorage.getItem(KEY);
+    if (raw) {
+      try { setUser(JSON.parse(raw)); } catch {}
     }
   }, []);
 
-  const login = (token, userData) => {
+  const login = (token, data) => {
     localStorage.setItem('token', token);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(userData));
-    setUser(userData);
+    localStorage.setItem(KEY, JSON.stringify(data));
+    setUser(data);
   };
 
   const logout = () => {
     localStorage.removeItem('token');
-    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(KEY);
     setUser(null);
   };
 
@@ -33,5 +33,7 @@ export function UserProvider({ children }) {
 }
 
 export function useUser() {
-  return useContext(UserContext);
+  const ctx = useContext(UserContext);
+  if (!ctx) throw new Error('useUser must be used within UserProvider');
+  return ctx;
 }

@@ -8,7 +8,7 @@ export function PopularProducts({ search = '' }) {
 
   if (isLoading) return <Loader />;
   if (error) return <ErrorMessage message={error.message} />;
-  if (!data?.length) return null;
+  if (!Array.isArray(data) || data.length === 0) return null;
 
   const filtered = search
     ? data.filter((p) => p.title.toLowerCase().includes(search.toLowerCase()))

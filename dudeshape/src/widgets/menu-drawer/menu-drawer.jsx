@@ -1,5 +1,11 @@
-import { useNavigate } from 'react-router-dom';
 import styles from './menu-drawer.module.css';
+
+const SCROLL_LINKS = [
+  { id: 'top', label: '🏠 Home' },
+  { id: 'products', label: '🛍 Products' },
+  { id: 'beauty', label: '✨ About Us' },
+  { id: 'footer', label: '📞 Contact Us' },
+];
 
 export function MenuDrawer({ isOpen, onClose, onOpenProfile, onOpenCart }) {
   if (!isOpen) return null;
@@ -19,14 +25,15 @@ export function MenuDrawer({ isOpen, onClose, onOpenProfile, onOpenCart }) {
           <button className={styles.close} onClick={onClose}>✕</button>
         </div>
 
-        <div className={styles.link} onClick={() => goTo('top')}>🏠 Home</div>
-        <div className={styles.link} onClick={() => goTo('products')}>🛍 Products</div>
-        <div className={styles.link} onClick={() => goTo('beauty')}>✨ About Us</div>
-        <div className={styles.link} onClick={() => goTo('footer')}>📞 Contact Us</div>
+        {SCROLL_LINKS.map((link) => (
+          <div key={link.id} className={styles.link} onClick={() => goTo(link.id)}>
+            {link.label}
+          </div>
+        ))}
 
         <div className={styles.divider} />
+        <div className={styles.label}>Account</div>
 
-        <div className={styles.section}>Account</div>
         <div className={styles.link} onClick={() => { onClose(); onOpenProfile?.(); }}>
           👤 Profile
         </div>

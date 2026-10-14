@@ -1,63 +1,47 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from './client';
 
-/**
- * Хук-обёртка для получения списка с сервера.
- * useSection('products') → GET /api/products → data
- */
+const KEY = (s) => ['section', s];
+
 export function useSection(section) {
   return useQuery({
-    queryKey: ['section', section],
-    queryFn: async () => {
-      const { data } = await api.get(`/${section}`);
-      return data;
-    },
+    queryKey: KEY(section),
+    queryFn: async () => (await api.get(`/${section}`)).data,
   });
 }
 
-/**
- * Добавление в корзину. После успеха — инвалидируем ключ 'cart',
- * чтобы UI обновился автоматически.
- */
-export function useAddToCart() {
-  const queryClient = useQueryClient();
-
+function useCartMutation(mutationFn) {
+  const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ productId, qty = 1 }) => {
-      const { data } = await api.post('/cart', { productId, qty });
-      return data;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['section', 'cart'] });
-    },
+    mutationFn,
+    onSuccess: () => qc.invalidateQueries({ queryKey: KEY('cart') }),
   });
 }
 
-/**
- * Удаление из корзины — то же самое.
- */
-export function useRemoveFromCart() {
-  const queryClient = useQueryClient();
+export const useAddToCart = () =>
+  useCartMutation(({ productId, qty = 1 }) => api.post('/cart', { productId, qty }).then((r) => r.data));
 
-  return useMutation({
-    mutationFn: async (id) => {
-      const { data } = await api.delete(`/cart/${id}`);
-      return data;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['section', 'cart'] });
-    },
-  });
-}
+export const useUpdateCartQty = () =>
+  useCartMutation(({ id, qty }) => api.patch(`/cart/${id}`, { qty }).then((r) => r.data));
 
-/**
- * Подписка на рассылку.
- */
-export function useSubscribe() {
-  return useMutation({
-    mutationFn: async (email) => {
-      const { data } = await api.post('/subscribe', { email });
-      return data;
-    },
+export const useRemoveFromCart = () =>
+  useCartMutation((id) => api.delete(`/cart/${id}`).then((r) => r.data));
+
+export const useClearCart = () =>
+  useCartMutation(() => api.delete('/cart').then((r) => r.data));
+
+export const useSubscribe = () =>
+  useMutation({
+    mutationFn: (email) => api.post('/subscribe', { email }).then((r) => r.data),
   });
-}
+
+export const useLogin = () =>
+  useMutation({
+    mutationFn: ({ email, password }) => api.post('/login', { email, password }).then((r) => r.data),
+  });
+
+export const useRegister = () =>
+  useMutation({
+    mutationFn: ({ name, email, password }) =>
+      api.post('/register', { name, email, password }).then((r) => r.data),
+  });

@@ -1,2 +1,11 @@
 export { api } from './client';
-export { useSection, useAddToCart, useRemoveFromCart, useSubscribe } from './queries';
+export {
+  useSection,
+  useAddToCart,
+  useUpdateCartQty,
+  useRemoveFromCart,
+  useClearCart,
+  useSubscribe,
+  useLogin,
+  useRegister,
+} from './queries';

@@ -5,14 +5,14 @@ import styles from './cart-modal.module.css';
 
 export function CartModal({ isOpen, onClose }) {
   const { items, total } = useCart();
-  const { mutate: updateQty } = useUpdateCartQty();
-  const { mutate: removeItem } = useRemoveFromCart();
-  const { mutate: clearCart, isPending: isClearing } = useClearCart();
+  const updateQty = useUpdateCartQty();
+  const removeItem = useRemoveFromCart();
+  const clearCart = useClearCart();
 
-  const handleCheckout = () => {
-    clearCart(undefined, {
+  const checkout = () => {
+    clearCart.mutate(undefined, {
       onSuccess: () => {
-        alert('✓ Order placed! Cart is now empty.');
+        alert('✓ Order placed!');
         onClose();
       },
     });
@@ -34,7 +34,7 @@ export function CartModal({ isOpen, onClose }) {
               <div className={styles.qtyBox}>
                 <button
                   className={styles.qtyBtn}
-                  onClick={() => updateQty({ id: item.id, qty: item.qty - 1 })}
+                  onClick={() => updateQty.mutate({ id: item.id, qty: item.qty - 1 })}
                   disabled={item.qty <= 1}
                 >
                   −
@@ -42,7 +42,7 @@ export function CartModal({ isOpen, onClose }) {
                 <span className={styles.qtyValue}>{item.qty}</span>
                 <button
                   className={styles.qtyBtn}
-                  onClick={() => updateQty({ id: item.id, qty: item.qty + 1 })}
+                  onClick={() => updateQty.mutate({ id: item.id, qty: item.qty + 1 })}
                 >
                   +
                 </button>
@@ -50,7 +50,9 @@ export function CartModal({ isOpen, onClose }) {
 
               <div className={styles.itemPrice}>${(item.price * item.qty).toFixed(2)}</div>
 
-              <button className={styles.remove} onClick={() => removeItem(item.id)}>✕</button>
+              <button className={styles.remove} onClick={() => removeItem.mutate(item.id)}>
+                ✕
+              </button>
             </div>
           ))}
 
@@ -61,12 +63,12 @@ export function CartModal({ isOpen, onClose }) {
 
           <div className={styles.actions}>
             <Button variant="outline" onClick={onClose}>Continue</Button>
-            <Button variant="dark" onClick={handleCheckout} disabled={isClearing}>
-              {isClearing ? 'Processing…' : 'Checkout'}
+            <Button variant="dark" onClick={checkout} disabled={clearCart.isPending}>
+              {clearCart.isPending ? 'Processing…' : 'Checkout'}
             </Button>
           </div>
 
-          <button className={styles.clearBtn} onClick={() => clearCart()}>
+          <button className={styles.clearBtn} onClick={() => clearCart.mutate()}>
             Clear cart
           </button>
         </>
