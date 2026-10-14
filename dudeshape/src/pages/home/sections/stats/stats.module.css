@@ -1,0 +1,10 @@
+.section { padding: 60px 0; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  background: #fdf8f5;
+  border-radius: var(--radius);
+  padding: 60px 40px;
+}
+@media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }

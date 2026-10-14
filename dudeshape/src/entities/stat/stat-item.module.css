@@ -1,0 +1,21 @@
+.item { text-align: center; }
+.value {
+  font-size: 48px;
+  font-weight: 800;
+  color: var(--text);
+  position: relative;
+  display: inline-block;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+.value::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: var(--dark);
+}
+.label { font-size: 15px; color: var(--text-muted); }

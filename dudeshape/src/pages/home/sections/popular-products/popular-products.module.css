@@ -1,0 +1,34 @@
+.section { padding: 60px 0 80px; }
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 32px;
+  margin-bottom: 40px;
+}
+.headLeft { max-width: 520px; }
+.subtitle { font-size: 14px; color: var(--text-muted); line-height: 1.7; margin-top: 16px; }
+.discoverLink {
+  font-size: 15px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  transition: gap 0.2s, color 0.2s;
+}
+.discoverLink:hover { gap: 14px; color: var(--accent); }
+
+.searchInfo {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+.empty {
+  padding: 60px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+@media (max-width: 900px) { .grid { grid-template-columns: 1fr; } .head { flex-direction: column; } }

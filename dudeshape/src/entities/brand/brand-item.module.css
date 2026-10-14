@@ -1,0 +1,11 @@
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  filter: grayscale(1);
+  opacity: 0.6;
+  transition: filter 0.25s, opacity 0.25s;
+}
+.item:hover { filter: grayscale(0); opacity: 1; }
+.item img { max-height: 32px; width: auto; }

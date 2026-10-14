@@ -1,0 +1,46 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0, 0, 0, 0.06); }
+
+.image { width: 100%; aspect-ratio: 1; object-fit: cover; background: var(--bg-soft); }
+
+.body { padding: 28px 24px; display: flex; flex-direction: column; gap: 14px; }
+.title { font-size: 22px; font-weight: 700; }
+.description { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+}
+.actions { display: flex; gap: 8px; }
+.price { font-size: 24px; font-weight: 700; }
+
+.btnBuy {
+  padding: 10px 20px;
+  background: var(--dark);
+  color: #fff;
+  border-radius: var(--radius);
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.btnBuy:hover { background: var(--dark-soft); }
+
+.btnCart {
+  padding: 10px 20px;
+  border: 1px solid var(--dark);
+  border-radius: var(--radius);
+  font-size: 13px;
+  transition: background 0.2s, color 0.2s;
+}
+.btnCart:hover { background: var(--dark); color: #fff; }
+.btnCart:disabled { opacity: 0.5; cursor: not-allowed; }
